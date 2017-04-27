@@ -17,7 +17,7 @@ the grammars will be available here!
 
 ## Tasks
 
-# | Status | Task
+"#" | Status | Task
 --- | --- | ---
 0 | :heavy_check_mark: | Lexer (Lexical analysis)
 13 | :heavy_check_mark: | Ignore tap and space(Lexical)
