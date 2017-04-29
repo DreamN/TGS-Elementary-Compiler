@@ -17,17 +17,18 @@
 
 %%
 program:
-  program S '\n'
+  program S
   | /* NULL */
   ;
 
-S : E                                     {printf("res%d: %d\n", res++, $1);}
-  | VAR '=' E '\n'                        {printf("VAR");}
-  | IF BOOL '\n' S END '\n'               {printf("If Bool");}                                   /* If */
-  | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP");}                                      /* For Loop */
-  | PRESENT STR '\n'                      {printf("Print String");}                              /* Print number in decimal */
-  | PRESENTHEX STR '\n'                   {printf("Print String HEX");}                          /* Print number in heximal */
+S : VAR '=' E '\n'                        {printf("VAR\n");}
+  | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */
+  | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
+  | PRESENT STRING '\n'                   {printf("Print String\n");}                              /* Print number in decimal */
+  | PRESENT E '\n'                        {printf("> %d\n", $2);}
+  | PRESENTHEX E '\n'                     {printf("> %d\n", $2);}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
+  | E '\n'                                {printf("res%d: %d\n", res++, $1);}
   ;
 
 E : E '+' T          {$$ = $1 + $3;}
@@ -48,10 +49,6 @@ F : '(' E ')'        {$$ = $2;}
   ;
 
 BOOL : F EQ F
-
-STR : STRING
-      | E
-      ;
 
 %%
 void yyerror(char *msg) {
