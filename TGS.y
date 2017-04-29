@@ -1,9 +1,15 @@
 %{
   #include <stdio.h>
   #include <stdlib.h>
+  #include <string.h>
   extern int yylex();
+  typedef struct yy_buffer_state * YY_BUFFER_STATE;
+  extern int yyparse();
+  extern YY_BUFFER_STATE yy_scan_string(char * str);
+  extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
   void yyerror(char *msg);
   int res = 0 ;
+  char reader[128];
 %}
 %union {
     int i;
@@ -57,6 +63,16 @@ STR : STRING
 void yyerror(char *msg) {
   fprintf(stderr, "%s\n", msg);
 }
-int main(void) {
- yyparse();
+int main(int argc, char *argv[]) {
+  FILE *fp = fopen(argv[1], "r");
+  char *filename = strtok(argv[1], ".");
+  filename = strcat(filename, ".asm");
+  while(fgets(reader, 128, fp)){
+      printf("%s", reader);
+      YY_BUFFER_STATE buffer = yy_scan_string(reader);
+      yyparse();
+      yy_delete_buffer(buffer);
+  }
+  fclose(fp);
+  return 0;
 }
