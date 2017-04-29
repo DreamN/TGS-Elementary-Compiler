@@ -1,0 +1,72 @@
+%{
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  void yyerror(char *);
+  int htoi(char *);   /* change base 16 to base 10 number */
+  int Ohtoi(char c);  /* change base 16 to base 10 number (1 character) */
+  int azToInt(char c);
+  enum {NUM=300, STR, YY, PRE, EQ, LOO, IF, END, TO, NL};
+%}
+
+%%
+
+[0-9]+                              {printf("(NUM: %d)", atoi(yytext)); return NUM;}      /* number Token (0-infinity)*/
+[0-9A-Fa-f]+[Hh]                    {printf("(HNUM: %d)", htoi(yytext)); return NUM;}      /* base 16 number Token (15AH) */
+\"[A-Za-z_0-9+\-*\\/]\"             {printf("(STR: %s)", yytext); return STR;}                            /* Haven't imprement yet! */
+[-+*()/=\\]                         {printf("(YY: %s)", yytext); return YY;}                           /* Operation Token */
+"present:"                          {printf("(PRE: %s", yytext); return PRE;}                           /* Present Something */
+"present_h:"                        {printf("(PRE: %s", yytext); return PRE;}                        /* Present Something in Hex */
+"eq"                                {printf("(EQ: %s", yytext); return EQ;}                                /* Equal or Not (in Boolean) */
+"loop:"                             {printf("(LOO: %s", yytext); return LOO;}                              /* Loop */
+"if:"                               {printf("(IF: %s", yytext); return IF;}                                /* If   */
+"end:"                              {printf("(END: %s)", yytext); return END;}                               /* End  */
+"to"                                {printf("(TO: %s)", yytext); return TO;}                                /* To   */
+"\n"                                {printf("(NEWLINE)"); return NL;}
+[ \t\f\v] ; //Ignore
+.                                   {printf("ERROR");}               /* out of gramma character Token */
+
+%%
+
+int Ohtoi(char c){  /* change base 16 to base 10 number (1 character) */
+	int r;
+	if(c>='0' && c<='9'){
+		r = c - '0';
+	}
+	else if(c>='A' && c<='F'){
+		r = c - 'A' + 10;
+	}
+	else if(c>='a' && c<='f'){
+		r = c - 'a' + 10;
+	}
+	return r;
+}
+
+int htoi(char *s){  /* change base 16 to base 10 number */
+	int i;
+	int result = Ohtoi(s[0]);
+	for(i=1; i<strlen(s)-1; i++){
+		result *= 16;
+		result += Ohtoi(s[i]);
+	}
+	return result;
+}
+
+int azToInt(char c){
+  if(c >= 'a' && c <= 'z'){
+    return c-'a';
+  }
+  else if(c >= 'A' && c <= 'Z'){
+    return c-'A';
+  }
+  // else error occur
+}
+
+int yywrap(void){
+  return 1;
+}
+int main(int argc, char **argv)
+{
+	int tok;
+	while(tok = yylex()){}
+}

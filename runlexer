@@ -1,0 +1,5 @@
+#!/bin/bash
+flex TGS.ltest
+gcc lex.yy.c -lfl
+./a.out < test.tgs
+echo "Running Complete!"
