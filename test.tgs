@@ -5,6 +5,13 @@ present: (36 + 48)
 present_h: 90
 present: "Hello"
 5
+$AA = 8
+present: $AA + 8
+$AA + 9
+$AA = $AA + 100
+present: $AA
+present_h: $AA
+$XB = 16
 1 eq 2
 26 eq 26
   1 + 2

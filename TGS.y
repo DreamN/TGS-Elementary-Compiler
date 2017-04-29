@@ -8,9 +8,11 @@
   extern YY_BUFFER_STATE yy_scan_string(char * str);
   extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
   void yyerror(char *msg);
+  char itoa(int val, int pos);
   int res = 0 ;
   char snum[10];
   char reader[128];
+  int var[676];
 %}
 %union {
     int i;
@@ -20,7 +22,7 @@
 %token <i> IF EQ LOOP TO END /* Condition Token */
 %token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
-%token <c> VAR
+%token <i> VAR
 %token <str> STRING
 %type <i> E T F
 %type <str> STR
@@ -32,7 +34,10 @@ program:
   | /* NULL */
   ;
 
-S : VAR '=' E '\n'                        {printf("VAR\n");}
+S : VAR '=' E '\n'                        {
+                                           var[$1] = $3;
+                                           printf("res%d: Assign $%c%c <- %d\n", res++, itoa($1, 1), itoa($1, 0), var[$1]);
+                                          }
   | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */
   | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
   | PRESENT STR '\n'                      {printf("> \"%s\" \n", $2);}                              /* Print number in decimal */
@@ -41,6 +46,7 @@ S : VAR '=' E '\n'                        {printf("VAR\n");}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
   | E '\n'                                {printf("res%d: %d\n", res++, $1);}
   | BOOL                                  {printf("res%d: %d\n", res++, $1);}
+  | '\n'                                  {}
   ;
 
 E : E '+' T          {$$ = $1 + $3;}
@@ -57,7 +63,7 @@ T : T '*' F          {$$ = $1 * $3;}
 F : '(' E ')'        {$$ = $2;}
   | '-' F            {$$ = -$2;}
   | NUM              {$$ = $1;}
-  | VAR              {$$ = $1;}
+  | VAR              {$$ = var[$1];}
   ;
 
 BOOL : E EQ E        {$$ = $1 == $3;}
@@ -85,4 +91,13 @@ int main(int argc, char *argv[]) {
   }
   fclose(fp);
   return 0;
+}
+
+char itoa(int val, int pos){
+  if(pos==0){
+    return val%26 + 'A';
+  }
+  else{
+    return val/26 + 'A';
+  }
 }
