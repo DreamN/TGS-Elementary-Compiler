@@ -28,11 +28,11 @@ program:
   | /* NULL */
   ;
 S : VAR '=' E '\n'                        {var[$1] = $3; printf("=  %d\n> ", $3);}
-  | IF BOOL '\n' S END '\n'                                          /* If */
+  | IF BOOL '\n' S END '\n'                                             /* If */
   | LOOP VAR ':' E TO E '\n' S END '\n'                                 /* For Loop */
-  | PRESENT STR '\n'                      {printf("%d\n", $2);}                                       /* Print numbrt in decimal */
+  | PRESENT STR '\n'                      {printf("%d\n", $2);}         /* Print numbrt in decimal */
   | PRESENTHEX STR '\n'                                                 /* Print number in heximal */
-  | UNKNOWN                                                             /* "!ERROR" when out of gramma character */
+  | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}           /* "!ERROR" when out of gramma character */
 
 E : E '+' T          {$$ = $1 + $3;}                                    /* '+' Operation*/
   | E '-' T          {$$ = $1 - $3;}                                    /* '-' Operation*/

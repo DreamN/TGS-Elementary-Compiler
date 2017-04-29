@@ -2,3 +2,5 @@ lex.yy.c
 tgs
 TGSP
 test.c
+y.tab.c
+y.tab.h
