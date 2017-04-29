@@ -24,6 +24,7 @@
 %token <str> STRING
 %type <i> E T F
 %type <str> STR
+%type <i> BOOL
 
 %%
 program:
@@ -39,6 +40,7 @@ S : VAR '=' E '\n'                        {printf("VAR\n");}
   | PRESENTHEX E '\n'                     {printf("> %x\n", $2);}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
   | E '\n'                                {printf("res%d: %d\n", res++, $1);}
+  | BOOL                                  {printf("res%d: %d\n", res++, $1);}
   ;
 
 E : E '+' T          {$$ = $1 + $3;}
@@ -58,7 +60,8 @@ F : '(' E ')'        {$$ = $2;}
   | VAR              {$$ = $1;}
   ;
 
-BOOL : F EQ F
+BOOL : E EQ E        {$$ = $1 == $3;}
+     ;
 
 STR : STRING         {$$ = $1;}
     | E '+' STRING   {}// IMP Later

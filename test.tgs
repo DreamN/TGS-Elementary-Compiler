@@ -5,7 +5,7 @@ present: (36 + 48)
 present_h: 90
 present: "Hello"
 5
-if: 1 eq 2
+1 eq 2
+26 eq 26
   1 + 2
-end
 1 + 2
