@@ -11,7 +11,7 @@
 
 %%
 
-[0-9]+                              {yylval.i = atoi(yytext); printf("Num=%d", yylval.i); return NUM;}      /* number Token (0-infinity)*/
+[0-9]+                              {yylval.i = atoi(yytext); return NUM;}      /* number Token (0-infinity)*/
 [0-9A-Fa-f]+[Hh]                    {yylval.i = htoi(yytext); return NUM;}      /* base 16 number Token (15AH) */
 "$"[A-Za-z][A-Za-z]                 {yylval.c = azToInt(yytext[1])*26 + azToInt(yytext[2]);  return VAR;}   /* Variable Token ($AA-$ZZ) */
 \"[A-Za-z_0-9+\-*\\/]\"             {return STRING;}                            /* Haven't imprement yet! */
