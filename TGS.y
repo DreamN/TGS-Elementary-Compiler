@@ -26,7 +26,7 @@ S : VAR '=' E '\n'                        {printf("VAR\n");}
   | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
   | PRESENT STRING '\n'                   {printf("Print String\n");}                              /* Print number in decimal */
   | PRESENT E '\n'                        {printf("> %d\n", $2);}
-  | PRESENTHEX E '\n'                     {printf("> %d\n", $2);}
+  | PRESENTHEX E '\n'                     {printf("> %x\n", $2);}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
   | E '\n'                                {printf("res%d: %d\n", res++, $1);}
   ;
