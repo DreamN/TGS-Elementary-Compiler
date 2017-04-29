@@ -50,7 +50,7 @@
 }
 %token <i> IF LOOP TO /* Condition Token */
 %token <i> AND OR NOT XOR  /* Operation Token */
-%token <i> NUM ACC PUSH POP SHOW LOAD TOP SIZE /* Options Token */
+%token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
 %token <c> VAR  /* Variable token */
 %type <i> E T F R BOOL STR /* Gramma */
