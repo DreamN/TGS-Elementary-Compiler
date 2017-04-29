@@ -1,6 +1,6 @@
 lex.yy.c
 tgs
-TGSP
+TGSProg
 test.c
 y.tab.c
 y.tab.h

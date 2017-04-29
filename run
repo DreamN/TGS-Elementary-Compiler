@@ -1,0 +1,5 @@
+rm -f lex.yy.c y.tab.c y.tab.h
+flex TGS.l
+yacc -d TGS.y
+gcc lex.yy.c y.tab.c -o TGSProg
+./TGSProg test.tgs
