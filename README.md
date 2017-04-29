@@ -32,7 +32,8 @@ the grammars will be available here!
 10 | :x: | Equal, isn't it? -> Boolean (Grammars)
 11 | :x: | Looping (Grammars)
 12 | :x: | If Condition (Grammars)
-14 | :x: | Basic Operation{+, -, *, /, \}
+13 | :heavy_check_mark: | Basic Operation{+, -, *, /, \}
+14 | :heavy_check_mark: | Print RESX:
 
 ## Contributors
 * Suttichai Pongsanont
