@@ -13,7 +13,7 @@
 
 [0-9]+                              {printf("(NUM: %d)", atoi(yytext)); return NUM;}      /* number Token (0-infinity)*/
 [0-9A-Fa-f]+[Hh]                    {printf("(HNUM: %d)", htoi(yytext)); return NUM;}      /* base 16 number Token (15AH) */
-\"[A-Za-z_0-9+\-*\\/]\"             {printf("(STR: %s)", yytext); return STR;}                            /* Haven't imprement yet! */
+L?\"(\\.|[^\\"])*\"                 {printf("(STR: %s)", yytext); return STR;}                            /* Haven't imprement yet! */
 [-+*()/=\\]                         {printf("(YY: %s)", yytext); return YY;}                           /* Operation Token */
 "present:"                          {printf("(PRE: %s", yytext); return PRE;}                           /* Present Something */
 "present_h:"                        {printf("(PRE: %s", yytext); return PRE;}                        /* Present Something in Hex */

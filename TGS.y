@@ -4,16 +4,20 @@
   extern int yylex();
   void yyerror(char *msg);
   int res = 0 ;
+  char snum[10];
 %}
 %union {
     int i;
     char c;
+    char* str;
 }
 %token <i> IF EQ LOOP TO END /* Condition Token */
-%token <i> NUM STRING PRESENT PRESENTHEX    /* Options Token */
+%token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
 %token <c> VAR
+%token <str> STRING
 %type <i> E T F
+%type <str> STR
 
 %%
 program:
@@ -24,7 +28,7 @@ program:
 S : VAR '=' E '\n'                        {printf("VAR\n");}
   | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */
   | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
-  | PRESENT STRING '\n'                   {printf("Print String\n");}                              /* Print number in decimal */
+  | PRESENT STR '\n'                      {printf("> \"%s\" \n", $2);}                              /* Print number in decimal */
   | PRESENT E '\n'                        {printf("> %d\n", $2);}
   | PRESENTHEX E '\n'                     {printf("> %x\n", $2);}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
@@ -49,6 +53,11 @@ F : '(' E ')'        {$$ = $2;}
   ;
 
 BOOL : F EQ F
+
+STR : STRING         {$$ = $1;}
+    | E '+' STRING   {}// IMP Later
+    | STRING '+' E   {}// IMP Later
+    ;
 
 %%
 void yyerror(char *msg) {
