@@ -14,8 +14,8 @@
 [0-9]+                              {yylval.i = atoi(yytext); return NUM;}      /* number Token (0-infinity)*/
 [0-9A-Fa-f]+[Hh]                    {yylval.i = htoi(yytext); return NUM;}      /* base 16 number Token (15AH) */
 "$"[A-Za-z][A-Za-z]                 {yylval.i = azToInt(yytext[1])*26 + azToInt(yytext[2]); return VAR;}   /* Variable Token ($AA-$ZZ) */
-L?\"(\\.|[^\\"])*\"                 {yylval.str = yytext; return STRING;}
 [-+*()\n/=\\]                       {return *yytext;}                           /* Operation Token */
+L?\"(\\.|[^\\"])*\"                 {yylval.str = yytext; return STRING;}
 "present:"                          {return PRESENT;}                           /* Present Something */
 "present_h:"                        {return PRESENTHEX;}                        /* Present Something in Hex */
 "eq"                                {return EQ;}                                /* Equal or Not (in Boolean) */
@@ -23,6 +23,7 @@ L?\"(\\.|[^\\"])*\"                 {yylval.str = yytext; return STRING;}
 "if:"                               {return IF;}                                /* If   */
 "end:"                              {return END;}                               /* End  */
 "to"                                {return TO;}                                /* To   */
+"setres"                            {printf("##########Res mode enabled!!!\n"); return SETRES;}
 [ \t\f\v] ; //Ignore
 .                                   yyerror("Unknown character");               /* out of gramma character Token */
 

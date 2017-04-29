@@ -4,6 +4,7 @@ present: 36 + 48
 present: (36 + 48)
 present_h: 90
 present: "Hello"
+setres
 5
 $AA = 8
 present: $AA + 8
