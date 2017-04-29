@@ -13,11 +13,11 @@
 
 [0-9]+                              {yylval.i = atoi(yytext); return NUM;}      /* number Token (0-infinity)*/
 [0-9A-Fa-f]+[Hh]                    {yylval.i = htoi(yytext); return NUM;}      /* base 16 number Token (15AH) */
-"$"[A-Za-z][A-Za-z]                 {yylval.i = azToInt(yytext[1])*26 + azToInt(yytext[2]);  return VAR;}   /* Variable Token ($AA-$ZZ) */
-\"[A-Za-z_0-9+\-*\\/]\"              {return STRING;}                            /* Haven't imprement yet! */
+"$"[A-Za-z][A-Za-z]                 {yylval.c = azToInt(yytext[1])*26 + azToInt(yytext[2]);  return VAR;}   /* Variable Token ($AA-$ZZ) */
+\"[A-Za-z_0-9+\-*\\/]\"             {return STRING;}                            /* Haven't imprement yet! */
 [-+*()\n/=\\]                       {return *yytext;}                           /* Operation Token */
 "present:"                          {return PRESENT;}                           /* Present Something */
-"present_h:"                        {return PRESENTH;}                          /* Present Something in Hex */
+"present_h:"                        {return PRESENTHEX;}                          /* Present Something in Hex */
 "eq"                                {return EQ;}                                /* Equal or Not (in Boolean) */
 "loop:"                             {return LOOP;}                              /* Loop */
 "if:"                               {return IF;}                                /* If   */
@@ -54,10 +54,10 @@ int htoi(char *s){  /* change base 16 to base 10 number */
 
 int azToInt(char c){
   if(c >= 'a' && c <= 'z'){
-    return c-'a'
+    return c-'a';
   }
   else if(c >= 'A' && c <= 'Z'){
-    return c-'A'
+    return c-'A';
   }
   // else error occur
 }
