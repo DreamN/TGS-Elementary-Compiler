@@ -41,14 +41,10 @@ E : E '+' T          {$$ = $1 + $3;}                                    /* '+' O
 T : T '*' F          {$$ = $1 * $3;}                                    /* '*' Operation*/
   | T '/' F          {$$ = $1 / $3;}                                    /* '/' Operation*/
   | T '\\' F         {$$ = $1 % $3;}                                    /* modulus Operation*/
-  | T AND F          {$$ = $1 & $3;}                                    /* Bitwise AND Operation*/
-  | T OR F           {$$ = $1 | $3;}                                    /* Bitwise OR  Operation*/
-  | T XOR F          {$$ = $1 ^ $3;}                                    /* Bitwise XOR Operation*/
   | F                {$$ = $1;}                                         /* to more piority operation*/
   ;
 F : '(' E ')'        {$$ = $2;}                                         /* ( ) */
   | '-' F            {$$ = -$2;}                                        /* negative value */
-  | NOT F            {$$ = ~ $2;}                                       /* Bitwise NOT Operation*/
   | NUM              {$$ = $1;}
   | VAR              {$$ = $1;}
   ;
