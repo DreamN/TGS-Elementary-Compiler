@@ -26,10 +26,10 @@ the grammars will be available here!
 4 | :x: | Num Value(Grammars)
 5 | :satisfied: | Hex -> Dec Num Value
 6 | :x: | Value Assignment(Grammars)
-7 | :x: | String Value(Grammars)
-8 | :x: | Print values (Grammars)
-9 | :x: | Print values in hex (Grammars)
-10 | :x: | Equal, isn't it? -> Boolean (Grammars)
+7 | :heavy_check_mark: | String Value(Grammars)
+8 | :heavy_check_mark: | Print values (Grammars)
+9 | :heavy_check_mark: | Print values in hex (Grammars)
+10 | :heavy_check_mark: | Equal, isn't it? -> Boolean (Grammars)
 11 | :x: | Looping (Grammars)
 12 | :x: | If Condition (Grammars)
 13 | :heavy_check_mark: | Basic Operation{+, -, *, /, \}
