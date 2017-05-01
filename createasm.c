@@ -23,17 +23,17 @@ void createOp(int op, int reg1, int reg2){
     break;
     case MOD:
       fprintf(fp, "\tidiv %s, %s\n", regToString(reg1), regToString(reg2));
-      fprintf(fp, "\tmov %s, %s\n", regToString(reg1), regToString(EDX));
+      fprintf(fp, "\tmov %s, %s\n", regToString(reg1), regToString(RDX));
   }
 }
 
 void MemVar(int op, int reg, int id){
   switch (op) {
     case STORE:
-      fprintf(fp, "\tmov VAR[%d], %s\n", id, regToString(reg));
+      fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(reg));
     break;
     case LOAD:
-      fprintf(fp, "\tmov %s, VAR[%d]\n", regToString(reg), id);
+      fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(reg), id);
     break;
   }
 }
@@ -48,30 +48,33 @@ void addNegative(int reg){
 }
 
 void asmprintfInt(int reg){
-  fprintf(fp, "\tmov %s, BYTE [%s]\n", regToString(nextFreeReg), regToString(reg));
-  fprintf(fp, "\tpush %s\n", regToString(nextFreeReg));
+  fprintf(fp, "\tpush rcx\n");
+  fprintf(fp, "\tmov rdi, formatInt\n");
+  fprintf(fp, "\tmov rsi, %s\n", regToString(reg));
+  fprintf(fp, "\txor rax, rax\n");
   fprintf(fp, "\tcall printf\n");
+  fprintf(fp, "\tpop rcx\n");
 }
 
 char *regToString(int reg){
   switch (reg) {
-    case EAX:
-      return "eax";
+    case RAX:
+      return "rax";
     break;
-    case EBX:
-      return "ebx";
+    case RBX:
+      return "rbx";
     break;
-    case ECX:
-      return "ecx";
+    case RCX:
+      return "rcx";
     break;
-    case EDX:
-      return "edx";
+    case RDX:
+      return "rdx";
     break;
-    case ESI:
-      return "esi";
+    case RSI:
+      return "rsi";
     break;
-    case EDI:
-      return "edi";
+    case RDI:
+      return "rdi";
     break;
   }
 }
@@ -87,13 +90,15 @@ void releaseRegister(){
 }
 
 void initasm(){
-  fprintf(fp, "section .text\n\n");
-  fprintf(fp, "global _start\n\n");
-  fprintf(fp, "extern printf\n\n");
-  fprintf(fp, "_start:\n");
+  fprintf(fp, "\tglobal main\n\n");
+  fprintf(fp, "\textern printf\n\n");
+  fprintf(fp, "\tsection .text\n\n");
+  fprintf(fp, "main:\n");
 }
 
 void initvariable(){
   fprintf(fp, "section .data\n");
   fprintf(fp, "\tVAR times 676 DQ 0\n");
+  fprintf(fp, "\tformatInt db  \"%%d\", 10, 0\n");
+  fprintf(fp, "\tformatChar db  \"%%c\", 10, 0\n");
 }

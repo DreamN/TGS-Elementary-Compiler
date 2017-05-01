@@ -10,7 +10,7 @@ void MemVar(int op, int reg, int id);
 enum {LOAD, STORE} Mem_Ops;
 
 char *regToString(int reg);
-enum {EAX, EBX, ECX, EDX, ESI, EDI} REGISTER_NAME;
+enum {RAX, RBX, RCX, RDX, RSI, RDI} REGISTER_NAME;
 
 void RegConst(int reg, int num);
 
