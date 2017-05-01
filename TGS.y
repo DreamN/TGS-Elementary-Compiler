@@ -47,6 +47,18 @@
      return st->data;
  }
 
+ void pushLoopSig(struct node* head) /* push data to stack */
+ {
+     struct node* tmp = (struct node*)malloc(sizeof(struct node));
+     if(tmp == NULL) /*if create node fail */
+     {
+         exit(0);
+     }
+     tmp->data = -1;
+     tmp->next = head;
+     st = tmp;
+ }
+
  struct node* pop(struct node *head,int *element) /* pop stack */
  {
      if(head == NULL){ /* if stack is Empty */
@@ -88,7 +100,6 @@ S : VAR '=' E '\n'                        {
                                             jmpIf(push(st), $3, $5);
                                           }           /* If */
   | LOOP ':' VAR ':' E TO E '\n'          {
-
                                           }                              /* For Loop */
   | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
   | PRESENT ':' E '\n'                    {
@@ -98,7 +109,14 @@ S : VAR '=' E '\n'                        {
   | PRESENTHEX ':' E '\n'                 {}
   | UNKNOWN                               {}              /* "!ERROR" when out of gramma character */
   | E '\n'                                {releaseRegister();}
-  | END '\n'                              {jmpEnd(st->data);}
+  | END '\n'                              {
+                                            if(st->data == -1){
+                                              // jmpEndLoop(st->data);
+                                            }
+                                            else {
+                                              jmpEndIf(st->data);
+                                            }
+                                          }
   | '\n'                                  {}
   ;
 

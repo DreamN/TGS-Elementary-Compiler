@@ -26,6 +26,6 @@ void initvariable();
 
 void jmpIf(int jmpId, int a, int b);
 
-void jmpEnd(int jmpId);
+void jmpEndIf(int jmpId);
 
 #endif

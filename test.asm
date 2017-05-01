@@ -63,6 +63,8 @@ main:
 	pop rcx
 	mov rax, 1
 	mov rbx, 3
+	mov rcx, 2
+	sub rbx, rcx
 	cmp rax, rbx
 	jne s0
 	mov rcx, 11

@@ -108,6 +108,6 @@ void jmpIf(int jmpId, int a, int b){
   fprintf(fp, "\tjne s%d\n", jmpId);
 }
 
-void jmpEnd(int jmpId){
+void jmpEndIf(int jmpId){
   fprintf(fp, "\ts%d:\n", jmpId);
 }
