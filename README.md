@@ -9,7 +9,7 @@ this project is submitted to the "01076262 Compiler Construction" subject, CE KM
   $ flex TGS.l
   $ yacc -d TGS.y
   $ gcc lex.yy.c y.tab.c -o TGSProg
-  $ ./TGSProg
+  $ ./TGSProg test.tgs
   $ nasm -felf64 test.asm && gcc test.o && ./a.out
 ```
 

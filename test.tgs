@@ -1,5 +1,11 @@
-8
-(10 + 2)*    3
-36 + 48
+8 + 1
+8 + 2
+1 + 1 + 1 + 1 + 1 + 1
+present: 1234
 present: 1+1+1+1+(1+2)
 present: (2+3) * 4 * 5 * 4
+if: 1 eq 3
+  present: 11
+  present: 500
+  present: 11
+end

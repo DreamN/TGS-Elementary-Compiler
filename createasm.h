@@ -24,4 +24,8 @@ void releaseRegister();
 void initasm();
 void initvariable();
 
+void jmpIf(int jmpId, int a, int b);
+
+void jmpEnd(int jmpId);
+
 #endif

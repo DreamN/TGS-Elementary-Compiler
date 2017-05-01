@@ -3,4 +3,6 @@ rm -f lex.yy.c y.tab.c y.tab.h TGSProg test.asm
 flex TGS.l
 yacc -d TGS.y
 gcc lex.yy.c y.tab.c createasm.c -o TGSProg
+./TGSProg test.tgs
+nasm -felf64 test.asm && gcc test.o && ./a.out
 echo "Running Complete!"

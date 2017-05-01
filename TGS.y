@@ -16,6 +16,8 @@
   int var[676];
   int setRes = 0;
 
+  int autoIncJmp = 0;
+
   extern FILE *fp;
 
 
@@ -70,7 +72,6 @@
 %token <str> STRING
 %type <i> E T F
 %type <str> STR
-%type <i> BOOL
 
 %%
 program:
@@ -83,8 +84,11 @@ S : VAR '=' E '\n'                        {
                                             MemVar(STORE, $3, 1);
                                             releaseRegister();
                                           }
-  | IF BOOL '\n'                          {}                                   /* If */
-  | LOOP VAR ':' E TO E '\n'              {}                                      /* For Loop */
+  | IF ':' E EQ E '\n'                    {
+                                            st = push(st, autoIncJmp);
+                                            jmpIf(st->data, $3, $5);
+                                          }           /* If */
+  | LOOP VAR ':' E TO E '\n'              {}                              /* For Loop */
   | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
   | PRESENT ':' E '\n'                    {
                                             asmprintfInt($3);
@@ -92,9 +96,8 @@ S : VAR '=' E '\n'                        {
                                           }
   | PRESENTHEX ':' E '\n'                 {}
   | UNKNOWN                               {}              /* "!ERROR" when out of gramma character */
-  | E '\n'                                {}
-  | BOOL                                  {}
-  | END '\n'                              {}
+  | E '\n'                                {releaseRegister();}
+  | END '\n'                              {jmpEnd(st->data);}
   | '\n'                                  {}
   ;
 
@@ -133,9 +136,6 @@ F : '(' E ')'        {$$ = $2;}
                        MemVar(LOAD, $$, $1);
                      }
   ;
-
-BOOL : E EQ E        {$$ = $1 == $3;}
-     ;
 
 STR : STRING         {$$ = $1;}
     | E '+' STRING   {}// IMP Later

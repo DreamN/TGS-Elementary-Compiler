@@ -102,3 +102,12 @@ void initvariable(){
   fprintf(fp, "\tformatInt db  \"%%d\", 10, 0\n");
   fprintf(fp, "\tformatChar db  \"%%c\", 10, 0\n");
 }
+
+void jmpIf(int jmpId, int a, int b){
+  fprintf(fp, "\tcmp %s, %s\n", regToString(a), regToString(b));
+  fprintf(fp, "\tjne s%d\n", jmpId);
+}
+
+void jmpEnd(int jmpId){
+  fprintf(fp, "\ts%d:\n", jmpId);
+}
