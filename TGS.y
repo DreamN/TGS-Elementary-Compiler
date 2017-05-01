@@ -32,17 +32,19 @@
      head = NULL;
  }
 
- struct node* push(struct node* head,int data) /* push data to stack */
+ struct node* st = NULL;
+
+ int push(struct node* head) /* push data to stack */
  {
      struct node* tmp = (struct node*)malloc(sizeof(struct node));
      if(tmp == NULL) /*if create node fail */
      {
          exit(0);
      }
-     tmp->data = data;
+     tmp->data = autoIncJmp++;
      tmp->next = head;
-     head = tmp;
-     return head;
+     st = tmp;
+     return st->data;
  }
 
  struct node* pop(struct node *head,int *element) /* pop stack */
@@ -56,8 +58,6 @@
      free(tmp);
      return head;
  }
-
- struct node* st = NULL;
 
 %}
 %union {
@@ -85,10 +85,11 @@ S : VAR '=' E '\n'                        {
                                             releaseRegister();
                                           }
   | IF ':' E EQ E '\n'                    {
-                                            st = push(st, autoIncJmp);
-                                            jmpIf(st->data, $3, $5);
+                                            jmpIf(push(st), $3, $5);
                                           }           /* If */
-  | LOOP VAR ':' E TO E '\n'              {}                              /* For Loop */
+  | LOOP ':' VAR ':' E TO E '\n'          {
+
+                                          }                              /* For Loop */
   | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
   | PRESENT ':' E '\n'                    {
                                             asmprintfInt($3);
