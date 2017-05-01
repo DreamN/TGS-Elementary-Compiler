@@ -17,6 +17,49 @@
   int setRes = 0;
 
   extern FILE *fp;
+
+
+  struct node   /* structure of stack */
+ {
+     int data;
+     struct node* next;
+ };
+
+ void init(struct node* head)  /*create a stack*/
+ {
+     head = NULL;
+ }
+
+ struct node* push(struct node* head,int data) /* push data to stack */
+ {
+     struct node* tmp = (struct node*)malloc(sizeof(struct node));
+     if(tmp == NULL) /*if create node fail */
+     {
+         exit(0);
+     }
+     tmp->data = data;
+     tmp->next = head;
+     head = tmp;
+     size += 1;
+     return head;
+ }
+
+ struct node* pop(struct node *head,int *element) /* pop stack */
+ {
+     if(head == NULL){ /* if stack is Empty */
+       lexerror(1);  /* Return "!Error" */
+       return NULL;
+     }
+     struct node* tmp = head;
+     *element = head->data;
+     head = head->next;
+     free(tmp);
+     size -= 1;
+     return head;
+ }
+
+ struct node* st = NULL;
+
 %}
 %union {
     int i;
