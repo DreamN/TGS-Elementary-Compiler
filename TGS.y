@@ -42,7 +42,7 @@ program:
 S : VAR '=' E '\n'                        {
                                             var[$1] = $3;
                                             if(setRes)printf("res%d: Assign $%c%c <- %d\n", res++, itoa($1, 1), itoa($1, 0), var[$1]);
-                                            MemVar(STORE, $3, 1);
+                                            MemVar(STORE, $3, $1);
                                             releaseRegister();
                                           }
   | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */

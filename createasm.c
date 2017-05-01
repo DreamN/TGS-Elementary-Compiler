@@ -30,10 +30,10 @@ void createOp(int op, int reg1, int reg2){
 void MemVar(int op, int reg, int id){
   switch (op) {
     case STORE:
-      fprintf(fp, "\tmov VAR[%d], %s\n", id, regToString(reg));
+      fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(reg));
     break;
     case LOAD:
-      fprintf(fp, "\tmov %s, VAR[%d]\n", regToString(reg), id);
+      fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(reg), id);
     break;
   }
 }
