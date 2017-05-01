@@ -42,9 +42,9 @@ S : VAR '=' E '\n'                        {
                                           }
   | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */
   | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
-  | PRESENT STR '\n'                      {printf("> %s \n", $2);}                              /* Print number in decimal */
-  | PRESENT E '\n'                        {printf("> %d\n", $2);}
-  | PRESENTHEX E '\n'                     {printf("> %x\n", $2);}
+  | PRESENT ':' STR '\n'                      {printf("> %s\n", $3);}                              /* Print number in decimal */
+  | PRESENT ':' E '\n'                        {printf("> %d\n", $3);}
+  | PRESENTHEX ':' E '\n'                     {printf("> %x\n", $3);}
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
   | E '\n'                                {if(setRes)printf("res%d: %d\n", res++, $1);}
   | BOOL                                  {if(setRes)printf("res%d: %d\n", res++, $1);}
