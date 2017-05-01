@@ -98,7 +98,7 @@ void initasm(){
 
 void initvariable(){
   fprintf(fp, "section .data\n");
-  fprintf(fp, "\tVAR times 676 DQ 0\n");
+  fprintf(fp, "\tVAR times 1024 DQ 0\n");
   fprintf(fp, "\tformatInt db  \"%%d\", 10, 0\n");
   fprintf(fp, "\tformatChar db  \"%%c\", 10, 0\n");
 }
@@ -110,4 +110,27 @@ void jmpIf(int jmpId, int a, int b){
 
 void jmpEndIf(int jmpId){
   fprintf(fp, "\ts%d:\n", jmpId);
+}
+
+void jmpLoop(int id, int conna, int connb, int a, int b){
+  fprintf(fp, "\tsub %s, 1\n", regToString(a));
+  fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(a));
+  fprintf(fp, "\ts%d:\n", connb);
+  //compare var = b
+  int nreg = nextFreeRegister();
+
+  fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(nreg), id);
+  fprintf(fp, "\tadd %s, 1\n", regToString(nreg));
+  fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(nreg));
+
+  fprintf(fp, "\tcmp %s, %s\n", regToString(nreg), regToString(b));
+  fprintf(fp, "\tje s%d\n", conna);
+}
+
+void jmpEndLoop(int conna, int connb){
+
+  fprintf(fp, "\tjmp s%d\n", connb);
+  fprintf(fp, "\ts%d:\n", conna);
+  releaseRegister();
+  releaseRegister();
 }

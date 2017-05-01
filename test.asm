@@ -5,91 +5,39 @@
 	section .text
 
 main:
-	mov rax, 8
-	mov rbx, 1
-	add rax, rbx
-	mov rax, 8
-	mov rbx, 2
-	add rax, rbx
 	mov rax, 1
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rax, 1234
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rax
-	xor rax, rax
-	call printf
-	pop rcx
+	mov [VAR+3*8], rax
 	mov rax, 1
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	add rax, rbx
-	mov rbx, 1
-	mov rcx, 2
-	add rbx, rcx
-	add rax, rbx
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rax
-	xor rax, rax
-	call printf
-	pop rcx
-	mov rax, 2
-	mov rbx, 3
-	add rax, rbx
-	mov rbx, 4
-	imul rax, rbx
 	mov rbx, 5
-	imul rax, rbx
-	mov rbx, 4
-	imul rax, rbx
+	sub rax, 1
+	mov [VAR+673*8], rax
+	s1:
+	mov rcx, [VAR+673*8]
+	add rcx, 1
+	mov [VAR+673*8], rcx
+	cmp rcx, rbx
+	je s0
+	mov rdx, [VAR+3*8]
 	push rcx
 	mov rdi, formatInt
-	mov rsi, rax
+	mov rsi, rdx
 	xor rax, rax
 	call printf
 	pop rcx
-	mov rax, 1
-	mov rbx, 3
-	mov rcx, 2
-	sub rbx, rcx
-	cmp rax, rbx
-	jne s0
-	mov rcx, 11
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rcx
-	xor rax, rax
-	call printf
-	pop rcx
-	mov rcx, 500
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rcx
-	xor rax, rax
-	call printf
-	pop rcx
-	mov rcx, 11
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rcx
-	xor rax, rax
-	call printf
-	pop rcx
+	mov rdx, [VAR+3*8]
+	mov rsi, [VAR+673*8]
+	imul rdx, rsi
+	mov [VAR+3*8], rdx
+	jmp s1
 	s0:
+	mov rbx, [VAR+3*8]
+	push rcx
+	mov rdi, formatInt
+	mov rsi, rbx
+	xor rax, rax
+	call printf
+	pop rcx
 section .data
-	VAR times 676 DQ 0
+	VAR times 1024 DQ 0
 	formatInt db  "%d", 10, 0
 	formatChar db  "%c", 10, 0

@@ -28,4 +28,8 @@ void jmpIf(int jmpId, int a, int b);
 
 void jmpEndIf(int jmpId);
 
+void jmpLoop(int id, int conna, int connb, int a, int b);
+
+void jmpEndLoop(int conna, int connb);
+
 #endif

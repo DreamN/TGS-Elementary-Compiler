@@ -59,16 +59,16 @@
      st = tmp;
  }
 
- struct node* pop(struct node *head,int *element) /* pop stack */
+ int pop(struct node *head) /* pop stack */
  {
      if(head == NULL){ /* if stack is Empty */
-       return NULL;
+       return -100;
      }
      struct node* tmp = head;
-     *element = head->data;
-     head = head->next;
+     int data = head->data;
+     st = head->next;
      free(tmp);
-     return head;
+     return data;
  }
 
 %}
@@ -93,13 +93,19 @@ program:
 
 S : VAR '=' E '\n'                        {
                                             var[$1] = $3;
-                                            MemVar(STORE, $3, 1);
+                                            MemVar(STORE, $3, $1);
                                             releaseRegister();
                                           }
   | IF ':' E EQ E '\n'                    {
                                             jmpIf(push(st), $3, $5);
+                                            releaseRegister();
+                                            releaseRegister();
                                           }           /* If */
   | LOOP ':' VAR ':' E TO E '\n'          {
+                                            int conna = push(st);
+                                            int connb = push(st);
+                                            jmpLoop($3, conna, connb, $5, $7);
+                                            pushLoopSig(st);
                                           }                              /* For Loop */
   | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
   | PRESENT ':' E '\n'                    {
@@ -111,10 +117,13 @@ S : VAR '=' E '\n'                        {
   | E '\n'                                {releaseRegister();}
   | END '\n'                              {
                                             if(st->data == -1){
-                                              // jmpEndLoop(st->data);
+                                              pop(st);
+                                              int connb = pop(st);
+                                              int conna = pop(st);
+                                              jmpEndLoop(conna, connb);
                                             }
                                             else {
-                                              jmpEndIf(st->data);
+                                              jmpEndIf(pop(st));
                                             }
                                           }
   | '\n'                                  {}
