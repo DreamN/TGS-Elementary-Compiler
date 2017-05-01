@@ -74,7 +74,7 @@ F : '(' E ')'        {$$ = $2;}
   | NUM              {$$ = nextFreeRegister();
                            RegConst($$, $1);}
   | VAR              {$$ = nextFreeRegister();
-                           MemVar(LOAD, $$, 1);}
+                           MemVar(LOAD, $$, $1);}
   ;
 
 BOOL : E EQ E        {$$ = $1 == $3;}
