@@ -23,7 +23,6 @@ L?\"(\\.|[^\\"])*\"                 {yylval.str = yytext; return STRING;}
 "if"                               {return IF;}                                /* If   */
 "end"                              {return END;}                               /* End  */
 "to"                                {return TO;}                                /* To   */
-"setres"                            {printf("##########Res mode enabled!!!\n"); return SETRES;}
 [ \t\f\v] ; //Ignore
 .                                   yyerror("Unknown character");               /* out of gramma character Token */
 

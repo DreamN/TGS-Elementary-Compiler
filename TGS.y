@@ -40,21 +40,18 @@
      tmp->data = data;
      tmp->next = head;
      head = tmp;
-     size += 1;
      return head;
  }
 
  struct node* pop(struct node *head,int *element) /* pop stack */
  {
      if(head == NULL){ /* if stack is Empty */
-       lexerror(1);  /* Return "!Error" */
        return NULL;
      }
      struct node* tmp = head;
      *element = head->data;
      head = head->next;
      free(tmp);
-     size -= 1;
      return head;
  }
 
@@ -67,7 +64,6 @@
     char* str;
 }
 %token <i> IF EQ LOOP TO END /* Condition Token */
-%token <i> SETRES
 %token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
 %token <i> VAR
@@ -84,23 +80,21 @@ program:
 
 S : VAR '=' E '\n'                        {
                                             var[$1] = $3;
-                                            if(setRes)printf("res%d: Assign $%c%c <- %d\n", res++, itoa($1, 1), itoa($1, 0), var[$1]);
                                             MemVar(STORE, $3, 1);
                                             releaseRegister();
                                           }
-  | IF BOOL '\n' S END '\n'               {printf("If Bool\n");}                                   /* If */
-  | LOOP VAR ':' E TO E '\n' S END '\n'   {printf("LOOP\n");}                                      /* For Loop */
-  | PRESENT ':' STR '\n'                  {printf("> %s\n", $3);}                              /* Print number in decimal */
+  | IF BOOL '\n'                          {}                                   /* If */
+  | LOOP VAR ':' E TO E '\n'              {}                                      /* For Loop */
+  | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
   | PRESENT ':' E '\n'                    {
-                                            printf("> %d\n", $3);
                                             asmprintfInt($3);
                                             releaseRegister();
                                           }
-  | PRESENTHEX ':' E '\n'                 {printf("> %x\n", $3);}
-  | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}              /* "!ERROR" when out of gramma character */
-  | E '\n'                                {if(setRes)printf("res%d: %d\n", res++, $1);}
-  | BOOL                                  {if(setRes)printf("res%d: %d\n", res++, $1);}
-  | SETRES                                {setRes = 1;}
+  | PRESENTHEX ':' E '\n'                 {}
+  | UNKNOWN                               {}              /* "!ERROR" when out of gramma character */
+  | E '\n'                                {}
+  | BOOL                                  {}
+  | END '\n'                              {}
   | '\n'                                  {}
   ;
 
