@@ -10,40 +10,47 @@ int nextFreeReg = 0;
 void createOp(int op, int reg1, int reg2){
   switch (op) {
     case ADD:
-      fprintf(fp, "add %s, %s\n", regToString(reg1), regToString(reg2));
+      fprintf(fp, "\tadd %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case SUB:
-      fprintf(fp, "sub %s, %s\n", regToString(reg1), regToString(reg2));
-    break MULT:
-      fprintf(fp, "imul %s, %s\n", regToString(reg1), regToString(reg2));
+      fprintf(fp, "\tsub %s, %s\n", regToString(reg1), regToString(reg2));
+    break;
+    case MULT:
+      fprintf(fp, "\timul %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case DIV:
-      fprintf(fp, "idiv %s, %s\n",regToString(reg1),regToString(reg2));
+      fprintf(fp, "\tidiv %s, %s\n", regToString(reg1), regToString(reg2));
     break;
+    case MOD:
+      fprintf(fp, "\tidiv %s, %s\n", regToString(reg1), regToString(reg2));
+      fprintf(fp, "\tmov %s, %s\n", regToString(reg1), regToString(EDX));
   }
 }
 
-void MemVar(int op, int id, int reg){
+void MemVar(int op, int reg, int id){
   switch (op) {
     case STORE:
-      fprintf(fp, "mov VAR[%d], %s\n", id, regToString(nextFreeReg));
+      fprintf(fp, "\tmov VAR[%d], %s\n", id, regToString(reg));
     break;
     case LOAD:
-      fprintf(fp, "mov %s, VAR[%d]\n", regToString(nextFreeReg), id);
+      fprintf(fp, "\tmov %s, VAR[%d]\n", regToString(reg), id);
     break;
   }
 }
 
-
-void initasm(){
-  fprintf(fp, "section .text\n");
-  fprintf(fp, "\tglobal _start\n\n");
-  fprintf(fp, "_start:\n", );
+void RegConst(int reg, int num){
+  fprintf(fp, "\tmov %s, %d\n", regToString(reg), num);
 }
 
-void initvariable(){
-  fprintf(fp, "section .data\n");
-  fprintf(fp, "\tVAR times 676 DQ 0\n", );
+void addNegative(int reg){
+  fprintf(fp, "\tNOT %s\n", regToString(reg));
+  fprintf(fp, "\tadd %s, 00000001B\n", regToString(reg));
+}
+
+void asmprintfInt(int reg){
+  fprintf(fp, "\tmov %s, BYTE [%s]\n", regToString(nextFreeReg), regToString(reg));
+  fprintf(fp, "\tpush %s\n", regToString(nextFreeReg));
+  fprintf(fp, "\tcall printf\n");
 }
 
 char *regToString(int reg){
@@ -58,7 +65,7 @@ char *regToString(int reg){
       return "ecx";
     break;
     case EDX:
-      return "edx"
+      return "edx";
     break;
     case ESI:
       return "esi";
@@ -77,4 +84,16 @@ int nextFreeRegister(){
 
 void releaseRegister(){
   nextFreeReg--;
+}
+
+void initasm(){
+  fprintf(fp, "section .text\n\n");
+  fprintf(fp, "global _start\n\n");
+  fprintf(fp, "extern printf\n\n");
+  fprintf(fp, "_start:\n");
+}
+
+void initvariable(){
+  fprintf(fp, "section .data\n");
+  fprintf(fp, "\tVAR times 676 DQ 0\n");
 }
