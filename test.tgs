@@ -1,6 +1,7 @@
-$AD = 1
+$AD = 0
 loop: $ZX: 1 to 5
-  present: $AD
-  $AD = $AD * $ZX
+  loop: $DM: 1 to 4
+    $AD = $AD + 1
+  end
 end
 present: $AD

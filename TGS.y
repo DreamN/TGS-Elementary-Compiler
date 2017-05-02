@@ -82,7 +82,7 @@
 %token <i> UNKNOWN /* Error Token */
 %token <i> VAR
 %token <str> STRING
-%type <i> E T F
+%type <i> E T F N
 %type <str> STR
 
 %%
@@ -98,10 +98,8 @@ S : VAR '=' E '\n'                        {
                                           }
   | IF ':' E EQ E '\n'                    {
                                             jmpIf(push(st), $3, $5);
-                                            releaseRegister();
-                                            releaseRegister();
                                           }           /* If */
-  | LOOP ':' VAR ':' E TO E '\n'          {
+  | LOOP ':' VAR ':' E TO N '\n'          {
                                             int conna = push(st);
                                             int connb = push(st);
                                             jmpLoop($3, conna, connb, $5, $7);
@@ -158,12 +156,18 @@ F : '(' E ')'        {$$ = $2;}
                      }
   | NUM              {
                        $$ = nextFreeRegister();
-                       RegConst($$, $1);}
+                       RegConst($$, $1);
+                     }
   | VAR              {
                        $$ = nextFreeRegister();
                        MemVar(LOAD, $$, $1);
                      }
   ;
+
+  N : '(' E ')'        {$$ = $2;}
+    | '-' F            {$$ = -$2;}
+    | NUM              {$$ = $1;}
+    ;
 
 STR : STRING         {$$ = $1;}
     | E '+' STRING   {}// IMP Later

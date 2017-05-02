@@ -106,6 +106,8 @@ void initvariable(){
 void jmpIf(int jmpId, int a, int b){
   fprintf(fp, "\tcmp %s, %s\n", regToString(a), regToString(b));
   fprintf(fp, "\tjne s%d\n", jmpId);
+  releaseRegister();
+  releaseRegister();
 }
 
 void jmpEndIf(int jmpId){
@@ -123,14 +125,14 @@ void jmpLoop(int id, int conna, int connb, int a, int b){
   fprintf(fp, "\tadd %s, 1\n", regToString(nreg));
   fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(nreg));
 
-  fprintf(fp, "\tcmp %s, %s\n", regToString(nreg), regToString(b));
+  fprintf(fp, "\tcmp %s, %d\n", regToString(nreg), b);
   fprintf(fp, "\tje s%d\n", conna);
+  releaseRegister();
 }
 
 void jmpEndLoop(int conna, int connb){
 
   fprintf(fp, "\tjmp s%d\n", connb);
   fprintf(fp, "\ts%d:\n", conna);
-  releaseRegister();
   releaseRegister();
 }

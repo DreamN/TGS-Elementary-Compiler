@@ -5,35 +5,38 @@
 	section .text
 
 main:
-	mov rax, 1
+	mov rax, 0
 	mov [VAR+3*8], rax
 	mov rax, 1
-	mov rbx, 5
 	sub rax, 1
 	mov [VAR+673*8], rax
 	s1:
-	mov rcx, [VAR+673*8]
-	add rcx, 1
-	mov [VAR+673*8], rcx
-	cmp rcx, rbx
+	mov rbx, [VAR+673*8]
+	add rbx, 1
+	mov [VAR+673*8], rbx
+	cmp rbx, 5
 	je s0
-	mov rdx, [VAR+3*8]
-	push rcx
-	mov rdi, formatInt
-	mov rsi, rdx
-	xor rax, rax
-	call printf
-	pop rcx
-	mov rdx, [VAR+3*8]
-	mov rsi, [VAR+673*8]
-	imul rdx, rsi
-	mov [VAR+3*8], rdx
+	mov rbx, 1
+	sub rbx, 1
+	mov [VAR+90*8], rbx
+	s3:
+	mov rcx, [VAR+90*8]
+	add rcx, 1
+	mov [VAR+90*8], rcx
+	cmp rcx, 4
+	je s2
+	mov rcx, [VAR+3*8]
+	mov rdx, 1
+	add rcx, rdx
+	mov [VAR+3*8], rcx
+	jmp s3
+	s2:
 	jmp s1
 	s0:
-	mov rbx, [VAR+3*8]
+	mov rax, [VAR+3*8]
 	push rcx
 	mov rdi, formatInt
-	mov rsi, rbx
+	mov rsi, rax
 	xor rax, rax
 	call printf
 	pop rcx
