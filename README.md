@@ -24,15 +24,15 @@ the grammars will be available here!
 13 | :heavy_check_mark: | Ignore tap and space(Lexical)
 2 | :x: | Documents
 3 | :heavy_check_mark: | Installing the required tools {'Flex', 'Bison', 'GCC'}
-4 | :x: | Num Value(Grammars)
+4 | :heavy_check_mark: | Num Value(Grammars)
 5 | :satisfied: | Hex -> Dec Num Value
-6 | :x: | Value Assignment(Grammars)
+6 | :heavy_check_mark: | Value Assignment
 7 | :heavy_check_mark: | String Value(Grammars)
 8 | :heavy_check_mark: | Print values (Grammars)
 9 | :heavy_check_mark: | Print values in hex (Grammars)
 10 | :heavy_check_mark: | Equal, isn't it? -> Boolean (Grammars)
-11 | :x: | Looping (Grammars)
-12 | :x: | If Condition (Grammars)
+11 | :heavy_check_mark: | Looping (single + nested)
+12 | :heavy_check_mark: | If Condition (single + nested)
 13 | :heavy_check_mark: | Basic Operation{+, -, *, /, \}
 14 | :heavy_check_mark: | Print RESX:
 
