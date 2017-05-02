@@ -3,6 +3,12 @@ Assignment #4 "Elementary Compiler"
 this project is submitted to the "01076262 Compiler Construction" subject, CE KMITL 2016
 ## Getting Started  
 
+- Install required packages (GCC, Flex, Bison)
+
+```shell
+  $ sudo apt-get install gcc flex bison
+```
+
 - Create a compiler program
 
 ```shell
@@ -11,6 +17,12 @@ this project is submitted to the "01076262 Compiler Construction" subject, CE KM
   $ gcc lex.yy.c y.tab.c -o TGSProg
   $ ./TGSProg test.tgs
   $ nasm -felf64 test.asm && gcc test.o && ./a.out
+```
+*Noted that test.tgs is your tgs file
+
+- or simply just run
+```shell
+  $ ./compile
 ```
 
 ## Grammars
