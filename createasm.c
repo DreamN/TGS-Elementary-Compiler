@@ -94,7 +94,6 @@ void asmprintfString(char* string){
     }
 
   }
-  temp ++;
   fprintf(fp, "\tmov %s, %d\n", regToString(nextFreeReg), temp);
   fprintf(fp, "\tmov byte[arraystr + %s], %c\n", regToString(nextFreeReg), '0');
   fprintf(fp, "\tmov rdi, arraystr\n");

@@ -24,7 +24,7 @@ L?\"(\\.|[^\\"])*\"                 {yylval.str = yytext; return STRING;}
 "end"                              {return END;}                               /* End  */
 "to"                                {return TO;}                                /* To   */
 [ \t\f\v] ; //Ignore
-.                                   yyerror("Unknown character");               /* out of gramma character Token */
+.                                                                               /* out of gramma character Token */
 
 %%
 

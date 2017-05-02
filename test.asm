@@ -45,7 +45,7 @@ main:
 	mov byte[arraystr + rax], 'e'
 	mov rax, 18
 	mov byte[arraystr + rax], 'r'
-	mov rax, 20
+	mov rax, 19
 	mov byte[arraystr + rax], 0
 	mov rdi, arraystr
 	call puts
@@ -154,7 +154,7 @@ main:
 	mov byte[arraystr + rax], 'A'
 	mov rax, 10
 	mov byte[arraystr + rax], 'D'
-	mov rax, 12
+	mov rax, 11
 	mov byte[arraystr + rax], 0
 	mov rdi, arraystr
 	call puts
