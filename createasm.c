@@ -166,6 +166,7 @@ void jmpEndIf(int jmpId){
 void jmpLoop(int id, int conna, int connb, int a, int b){
   fprintf(fp, "\tsub %s, 1\n", regToString(a));
   fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(a));
+  fprintf(fp, "\tadd %s, 1\n", regToString(b));
   fprintf(fp, "\tmov [VAR+%d*8], %s\n", 700+conna, regToString(b));
   fprintf(fp, "\ts%d:\n", connb);
   //compare var = b
