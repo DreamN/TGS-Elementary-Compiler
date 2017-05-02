@@ -19,11 +19,26 @@ void createOp(int op, int reg1, int reg2){
       fprintf(fp, "\timul %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case DIV:
-      fprintf(fp, "\tidiv %s, %s\n", regToString(reg1), regToString(reg2));
+      if(reg1 != RAX) fprintf(fp, "\tpush rax\n");
+      fprintf(fp, "\tpush rdx\n");
+      fprintf(fp, "\txor rdx, rdx\n");
+      fprintf(fp, "\tmov rax, %s\n", regToString(reg1));
+      fprintf(fp, "\tmov rsi, %s\n", regToString(reg2));
+      fprintf(fp, "\tidiv rsi\n");
+      fprintf(fp, "\tmov %s, rax\n", regToString(reg1));
+      fprintf(fp, "\tpop rdx\n");
+      if(reg1 != RAX) fprintf(fp, "\tpop rax\n");
     break;
     case MOD:
-      fprintf(fp, "\tidiv %s, %s\n", regToString(reg1), regToString(reg2));
-      fprintf(fp, "\tmov %s, %s\n", regToString(reg1), regToString(RDX));
+      if(reg1 != RAX) fprintf(fp, "\tpush rax\n");
+      fprintf(fp, "\tpush rdx\n");
+      fprintf(fp, "\txor rdx, rdx\n");
+      fprintf(fp, "\tmov rax, %s\n", regToString(reg1));
+      fprintf(fp, "\tmov rsi, %s\n", regToString(reg2));
+      fprintf(fp, "\tidiv rsi\n");
+      fprintf(fp, "\tmov %s, rdx\n", regToString(reg1));
+      fprintf(fp, "\tpop rdx\n");
+      if(reg1 != RAX) fprintf(fp, "\tpop rax\n");
   }
 }
 
@@ -54,6 +69,36 @@ void asmprintfInt(int reg){
   fprintf(fp, "\txor rax, rax\n");
   fprintf(fp, "\tcall printf\n");
   fprintf(fp, "\tpop rcx\n");
+}
+
+void asmprintfHex(int reg){
+  fprintf(fp, "\tpush rcx\n");
+  fprintf(fp, "\tmov rdi, formatHex\n");
+  fprintf(fp, "\tmov rsi, %s\n", regToString(reg));
+  fprintf(fp, "\txor rax, rax\n");
+  fprintf(fp, "\tcall printf\n");
+  fprintf(fp, "\tpop rcx\n");
+}
+
+void asmprintfString(char* string){
+  int i, temp = 0;
+  int hittime = 0;
+  for(i=0; hittime < 2; ++i){
+    if(string[i] == '"'){
+      hittime ++;
+    }
+    else{
+      fprintf(fp, "\tmov %s, %d\n", regToString(nextFreeReg), temp);
+      fprintf(fp, "\tmov byte[arraystr + %s], '%c'\n", regToString(nextFreeReg), string[i]);
+      temp ++;
+    }
+
+  }
+  temp ++;
+  fprintf(fp, "\tmov %s, %d\n", regToString(nextFreeReg), temp);
+  fprintf(fp, "\tmov byte[arraystr + %s], %c\n", regToString(nextFreeReg), '0');
+  fprintf(fp, "\tmov rdi, arraystr\n");
+  fprintf(fp, "\tcall puts\n");
 }
 
 char *regToString(int reg){
@@ -94,6 +139,7 @@ void releaseRegister(){
 void initasm(){
   fprintf(fp, "\tglobal main\n\n");
   fprintf(fp, "\textern printf\n\n");
+  fprintf(fp, "\textern puts\n\n");
   fprintf(fp, "\tsection .text\n\n");
   fprintf(fp, "main:\n");
 }
@@ -101,8 +147,9 @@ void initasm(){
 void initvariable(){
   fprintf(fp, "section .data\n");
   fprintf(fp, "\tVAR times 1024 DQ 0\n");
+  fprintf(fp, "\tarraystr	TIMES 512 dd 0 \n");
   fprintf(fp, "\tformatInt db  \"%%d\", 10, 0\n");
-  fprintf(fp, "\tformatChar db  \"%%c\", 10, 0\n");
+  fprintf(fp, "\tformatHex db  \"%%x\", 10, 0\n");
 }
 
 void jmpIf(int jmpId, int a, int b){

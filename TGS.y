@@ -110,8 +110,11 @@ S : VAR '=' E '\n'                        {
                                             asmprintfInt($3);
                                             releaseRegister();
                                           }
-  | PRESENTHEX ':' E '\n'                 {}
-  | UNKNOWN                               {}              /* "!ERROR" when out of gramma character */
+  | PRESENTHEX ':' E '\n'                 {
+                                            asmprintfHex($3);
+                                            releaseRegister();
+                                          }
+  | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}   /* "!ERROR" when out of gramma character */
   | E '\n'                                {releaseRegister();}
   | END '\n'                              {
                                             if(st->data == -1){
@@ -164,9 +167,9 @@ F : '(' E ')'        {$$ = $2;}
                      }
   ;
 
-STR : STRING         {$$ = $1;}
-    | E '+' STRING   {}// IMP Later
-    | STRING '+' E   {}// IMP Later
+
+STR : STRING         {asmprintfString($1);}
+    | STR '+' STRING {asmprintfString($3);}
     ;
 
 %%

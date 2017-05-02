@@ -16,7 +16,9 @@ void RegConst(int reg, int num);
 
 void addNegative(int reg);
 
-void asmprintfInt(int string);
+void asmprintfInt(int reg);
+void asmprintfHex(int reg);
+void asmprintfString(char* string);
 
 int nextFreeRegister();
 void releaseRegister();
