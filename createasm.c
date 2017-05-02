@@ -82,11 +82,13 @@ char *regToString(int reg){
 int nextFreeRegister(){
   int temp = nextFreeReg;
   nextFreeReg++;
+  // printf("next-> %d\n", temp);
   return temp;
 }
 
 void releaseRegister(){
   nextFreeReg--;
+  // printf("release-> %d\n", nextFreeReg);
 }
 
 void initasm(){
@@ -117,16 +119,23 @@ void jmpEndIf(int jmpId){
 void jmpLoop(int id, int conna, int connb, int a, int b){
   fprintf(fp, "\tsub %s, 1\n", regToString(a));
   fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(a));
+  fprintf(fp, "\tmov [VAR+%d*8], %s\n", 700+conna, regToString(b));
   fprintf(fp, "\ts%d:\n", connb);
   //compare var = b
   int nreg = nextFreeRegister();
-
+  int mreg = nextFreeRegister();
+//store B in VAR
   fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(nreg), id);
   fprintf(fp, "\tadd %s, 1\n", regToString(nreg));
   fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(nreg));
 
-  fprintf(fp, "\tcmp %s, %d\n", regToString(nreg), b);
+  fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(mreg), 700+conna);
+
+  fprintf(fp, "\tcmp %s, %s\n", regToString(nreg), regToString(mreg));
   fprintf(fp, "\tje s%d\n", conna);
+  releaseRegister();
+  releaseRegister();
+  releaseRegister();
   releaseRegister();
 }
 
@@ -134,5 +143,4 @@ void jmpEndLoop(int conna, int connb){
 
   fprintf(fp, "\tjmp s%d\n", connb);
   fprintf(fp, "\ts%d:\n", conna);
-  releaseRegister();
 }

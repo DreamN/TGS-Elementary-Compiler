@@ -82,7 +82,7 @@
 %token <i> UNKNOWN /* Error Token */
 %token <i> VAR
 %token <str> STRING
-%type <i> E T F N
+%type <i> E T F
 %type <str> STR
 
 %%
@@ -99,7 +99,7 @@ S : VAR '=' E '\n'                        {
   | IF ':' E EQ E '\n'                    {
                                             jmpIf(push(st), $3, $5);
                                           }           /* If */
-  | LOOP ':' VAR ':' E TO N '\n'          {
+  | LOOP ':' VAR ':' E TO E '\n'          {
                                             int conna = push(st);
                                             int connb = push(st);
                                             jmpLoop($3, conna, connb, $5, $7);
@@ -163,11 +163,6 @@ F : '(' E ')'        {$$ = $2;}
                        MemVar(LOAD, $$, $1);
                      }
   ;
-
-  N : '(' E ')'        {$$ = $2;}
-    | '-' F            {$$ = -$2;}
-    | NUM              {$$ = $1;}
-    ;
 
 STR : STRING         {$$ = $1;}
     | E '+' STRING   {}// IMP Later

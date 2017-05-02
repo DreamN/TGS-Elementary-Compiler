@@ -1,7 +1,15 @@
 $AD = 0
-loop: $ZX: 1 to 5
-  loop: $DM: 1 to 4
-    $AD = $AD + 1
+loop: $AS: 1 to 3
+  loop: $IN: 1 to 3
+      loop: $SP: 1 to 3
+        if: $SP eq 2
+          loop: $AB: 1 to 3
+            if: $AB eq 2
+              $AD = $AD + 1
+            end
+          end
+        end
+      end
   end
 end
 present: $AD
