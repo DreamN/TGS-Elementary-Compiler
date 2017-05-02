@@ -6,78 +6,86 @@
 FILE *fp;
 
 int nextFreeReg = 0;
+int increment = 1;
+
+void incTab(){
+  int i;
+  for(i=0; i<increment; i++){
+      fprintf(fp, "\t");
+  }
+}
 
 void createOp(int op, int reg1, int reg2){
   switch (op) {
     case ADD:
-      fprintf(fp, "\tadd %s, %s\n", regToString(reg1), regToString(reg2));
+      incTab();fprintf(fp, "add %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case SUB:
-      fprintf(fp, "\tsub %s, %s\n", regToString(reg1), regToString(reg2));
+      incTab();fprintf(fp, "sub %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case MULT:
-      fprintf(fp, "\timul %s, %s\n", regToString(reg1), regToString(reg2));
+      incTab();fprintf(fp, "imul %s, %s\n", regToString(reg1), regToString(reg2));
     break;
     case DIV:
       if(reg1 != RAX) fprintf(fp, "\tpush rax\n");
-      fprintf(fp, "\tpush rdx\n");
-      fprintf(fp, "\txor rdx, rdx\n");
-      fprintf(fp, "\tmov rax, %s\n", regToString(reg1));
-      fprintf(fp, "\tmov rsi, %s\n", regToString(reg2));
-      fprintf(fp, "\tidiv rsi\n");
-      fprintf(fp, "\tmov %s, rax\n", regToString(reg1));
-      fprintf(fp, "\tpop rdx\n");
-      if(reg1 != RAX) fprintf(fp, "\tpop rax\n");
+      incTab();fprintf(fp, "push rdx\n");
+      incTab();fprintf(fp, "xor rdx, rdx\n");
+      incTab();fprintf(fp, "mov rax, %s\n", regToString(reg1));
+      incTab();fprintf(fp, "mov rsi, %s\n", regToString(reg2));
+      incTab();fprintf(fp, "idiv rsi\n");
+      incTab();fprintf(fp, "mov %s, rax\n", regToString(reg1));
+      incTab();fprintf(fp, "pop rdx\n");
+      if(reg1 != RAX) {incTab();fprintf(fp, "\tpop rax\n");}
     break;
     case MOD:
       if(reg1 != RAX) fprintf(fp, "\tpush rax\n");
-      fprintf(fp, "\tpush rdx\n");
-      fprintf(fp, "\txor rdx, rdx\n");
-      fprintf(fp, "\tmov rax, %s\n", regToString(reg1));
-      fprintf(fp, "\tmov rsi, %s\n", regToString(reg2));
-      fprintf(fp, "\tidiv rsi\n");
-      fprintf(fp, "\tmov %s, rdx\n", regToString(reg1));
-      fprintf(fp, "\tpop rdx\n");
-      if(reg1 != RAX) fprintf(fp, "\tpop rax\n");
+      incTab();fprintf(fp, "push rdx\n");
+      incTab();fprintf(fp, "xor rdx, rdx\n");
+      incTab();fprintf(fp, "mov rax, %s\n", regToString(reg1));
+      incTab();fprintf(fp, "mov rsi, %s\n", regToString(reg2));
+      incTab();fprintf(fp, "idiv rsi\n");
+      incTab();fprintf(fp, "mov %s, rdx\n", regToString(reg1));
+      incTab();fprintf(fp, "pop rdx\n");
+      if(reg1 != RAX){incTab();fprintf(fp, "pop rax\n");}
   }
 }
 
 void MemVar(int op, int reg, int id){
   switch (op) {
     case STORE:
-      fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(reg));
+      incTab();fprintf(fp, "mov [VAR+%d*8], %s\n", id, regToString(reg));
     break;
     case LOAD:
-      fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(reg), id);
+      incTab();fprintf(fp, "mov %s, [VAR+%d*8]\n", regToString(reg), id);
     break;
   }
 }
 
 void RegConst(int reg, int num){
-  fprintf(fp, "\tmov %s, %d\n", regToString(reg), num);
+  incTab();fprintf(fp, "mov %s, %d\n", regToString(reg), num);
 }
 
 void addNegative(int reg){
-  fprintf(fp, "\tNOT %s\n", regToString(reg));
-  fprintf(fp, "\tadd %s, 00000001B\n", regToString(reg));
+  incTab();fprintf(fp, "NOT %s\n", regToString(reg));
+  incTab();fprintf(fp, "add %s, 00000001B\n", regToString(reg));
 }
 
 void asmprintfInt(int reg){
-  fprintf(fp, "\tpush rcx\n");
-  fprintf(fp, "\tmov rdi, formatInt\n");
-  fprintf(fp, "\tmov rsi, %s\n", regToString(reg));
-  fprintf(fp, "\txor rax, rax\n");
-  fprintf(fp, "\tcall printf\n");
-  fprintf(fp, "\tpop rcx\n");
+  incTab();fprintf(fp, "push rcx\n");
+  incTab();fprintf(fp, "mov rdi, formatInt\n");
+  incTab();fprintf(fp, "mov rsi, %s\n", regToString(reg));
+  incTab();fprintf(fp, "xor rax, rax\n");
+  incTab();fprintf(fp, "call printf\n");
+  incTab();fprintf(fp, "pop rcx\n");
 }
 
 void asmprintfHex(int reg){
-  fprintf(fp, "\tpush rcx\n");
-  fprintf(fp, "\tmov rdi, formatHex\n");
-  fprintf(fp, "\tmov rsi, %s\n", regToString(reg));
-  fprintf(fp, "\txor rax, rax\n");
-  fprintf(fp, "\tcall printf\n");
-  fprintf(fp, "\tpop rcx\n");
+  incTab();fprintf(fp, "push rcx\n");
+  incTab();fprintf(fp, "mov rdi, formatHex\n");
+  incTab();fprintf(fp, "mov rsi, %s\n", regToString(reg));
+  incTab();fprintf(fp, "xor rax, rax\n");
+  incTab();fprintf(fp, "call printf\n");
+  incTab();fprintf(fp, "pop rcx\n");
 }
 
 void asmprintfString(char* string){
@@ -88,16 +96,16 @@ void asmprintfString(char* string){
       hittime ++;
     }
     else{
-      fprintf(fp, "\tmov %s, %d\n", regToString(nextFreeReg), temp);
-      fprintf(fp, "\tmov byte[arraystr + %s], '%c'\n", regToString(nextFreeReg), string[i]);
+      incTab();fprintf(fp, "mov %s, %d\n", regToString(nextFreeReg), temp);
+      incTab();fprintf(fp, "mov byte[arraystr + %s], '%c'\n", regToString(nextFreeReg), string[i]);
       temp ++;
     }
 
   }
-  fprintf(fp, "\tmov %s, %d\n", regToString(nextFreeReg), temp);
-  fprintf(fp, "\tmov byte[arraystr + %s], %c\n", regToString(nextFreeReg), '0');
-  fprintf(fp, "\tmov rdi, arraystr\n");
-  fprintf(fp, "\tcall puts\n");
+  incTab();fprintf(fp, "mov %s, %d\n", regToString(nextFreeReg), temp);
+  incTab();fprintf(fp, "mov byte[arraystr + %s], %c\n", regToString(nextFreeReg), '0');
+  incTab();fprintf(fp, "mov rdi, arraystr\n");
+  incTab();fprintf(fp, "call puts\n");
 }
 
 char *regToString(int reg){
@@ -136,50 +144,53 @@ void releaseRegister(){
 }
 
 void initasm(){
-  fprintf(fp, "\tglobal main\n\n");
-  fprintf(fp, "\textern printf\n\n");
-  fprintf(fp, "\textern puts\n\n");
-  fprintf(fp, "\tsection .text\n\n");
+  fprintf(fp, "global main\n\n");
+  fprintf(fp, "extern printf\n\n");
+  fprintf(fp, "extern puts\n\n");
+  fprintf(fp, "section .text\n\n");
   fprintf(fp, "main:\n");
 }
 
 void initvariable(){
   fprintf(fp, "section .data\n");
-  fprintf(fp, "\tVAR times 1024 DQ 0\n");
-  fprintf(fp, "\tarraystr	TIMES 512 dd 0 \n");
-  fprintf(fp, "\tformatInt db  \"%%d\", 10, 0\n");
-  fprintf(fp, "\tformatHex db  \"%%x\", 10, 0\n");
+  fprintf(fp, "VAR times 1024 DQ 0\n");
+  fprintf(fp, "arraystr	TIMES 512 dd 0 \n");
+  fprintf(fp, "formatInt db  \"%%d\", 10, 0\n");
+  fprintf(fp, "formatHex db  \"%%x\", 10, 0\n");
 }
 
 void jmpIf(int jmpId, int a, int b){
-  fprintf(fp, "\tcmp %s, %s\n", regToString(a), regToString(b));
-  fprintf(fp, "\tjne s%d\n", jmpId);
+  incTab();fprintf(fp, "cmp %s, %s\n", regToString(a), regToString(b));
+  incTab();fprintf(fp, "jne s%d\n", jmpId);
   releaseRegister();
   releaseRegister();
+  increment++;
 }
 
 void jmpEndIf(int jmpId){
-  fprintf(fp, "\ts%d:\n", jmpId);
+  increment--;
+  incTab();fprintf(fp, "s%d:\n", jmpId);
 }
 
 void jmpLoop(int id, int conna, int connb, int a, int b){
-  fprintf(fp, "\tsub %s, 1\n", regToString(a));
-  fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(a));
-  fprintf(fp, "\tadd %s, 1\n", regToString(b));
-  fprintf(fp, "\tmov [VAR+%d*8], %s\n", 700+conna, regToString(b));
-  fprintf(fp, "\ts%d:\n", connb);
+  incTab();fprintf(fp, "sub %s, 1\n", regToString(a));
+  incTab();fprintf(fp, "mov [VAR+%d*8], %s\n", id, regToString(a));
+  incTab();fprintf(fp, "add %s, 1\n", regToString(b));
+  incTab();fprintf(fp, "mov [VAR+%d*8], %s\n", 700+conna, regToString(b));
+  incTab();fprintf(fp, "s%d:\n", connb);
+  increment++;
   //compare var = b
   int nreg = nextFreeRegister();
   int mreg = nextFreeRegister();
 //store B in VAR
-  fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(nreg), id);
-  fprintf(fp, "\tadd %s, 1\n", regToString(nreg));
-  fprintf(fp, "\tmov [VAR+%d*8], %s\n", id, regToString(nreg));
+  incTab();fprintf(fp, "mov %s, [VAR+%d*8]\n", regToString(nreg), id);
+  incTab();fprintf(fp, "add %s, 1\n", regToString(nreg));
+  incTab();fprintf(fp, "mov [VAR+%d*8], %s\n", id, regToString(nreg));
 
-  fprintf(fp, "\tmov %s, [VAR+%d*8]\n", regToString(mreg), 700+conna);
+  incTab();fprintf(fp, "mov %s, [VAR+%d*8]\n", regToString(mreg), 700+conna);
 
-  fprintf(fp, "\tcmp %s, %s\n", regToString(nreg), regToString(mreg));
-  fprintf(fp, "\tje s%d\n", conna);
+  incTab();fprintf(fp, "cmp %s, %s\n", regToString(nreg), regToString(mreg));
+  incTab();fprintf(fp, "je s%d\n", conna);
   releaseRegister();
   releaseRegister();
   releaseRegister();
@@ -187,7 +198,7 @@ void jmpLoop(int id, int conna, int connb, int a, int b){
 }
 
 void jmpEndLoop(int conna, int connb){
-
-  fprintf(fp, "\tjmp s%d\n", connb);
-  fprintf(fp, "\ts%d:\n", conna);
+  increment--;
+  incTab();fprintf(fp, "jmp s%d\n", connb);
+  incTab();fprintf(fp, "s%d:\n", conna);
 }
