@@ -18,7 +18,7 @@
 L?\"(\\.|[^\\"])*\"                {yylval.str = yytext; return STRING;}
 "present"                          {return PRESENT;}                           /* Present Something */
 "present_h"                        {return PRESENTHEX;}                        /* Present Something in Hex */
-("eq"|"gt"|"lt")                   {yylval.str = yytext; return BOOL;}                                /* Equal or Not (in Boolean) */
+("eq"|"neq"|"gt"|"lt"|"gte"|"lte")       {yylval.str = yytext; return BOOL;}                                /* Equal or Not (in Boolean) */
 "loop"                             {return LOOP;}                              /* Loop */
 "if"                               {return IF;}                                /* If   */
 "end"                              {return END;}                               /* End  */
