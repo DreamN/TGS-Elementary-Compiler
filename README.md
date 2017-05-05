@@ -9,35 +9,33 @@ this project is submitted to the "01076262 Compiler Construction" subject, CE KM
   $ sudo apt-get install gcc flex bison
 ```
 
-- Create a compiler program
+- Compile program
 
 ```shell
-  $ flex TGS.l
-  $ yacc -d TGS.y
-  $ gcc lex.yy.c y.tab.c -o TGSProg
-  $ ./TGSProg test.tgs
-  $ nasm -felf64 test.asm && gcc test.o && ./a.out
+  $ ./compile <Your file name>
+  Ex. $ ./compile example/Fibonacci.tgs
 ```
 *Noted that test.tgs is your tgs file
 
-- or simply just run
+- Run program
 ```shell
-  $ ./compile
+  $ nasm -felf64 <Your compiled file(.asm)>
+  $ gcc <Your compiled file(.o)>
+  $ ./a.out
 ```
-
 ## Grammars
-the grammars will be available here!
+Look at the documents of yacc file
 
 ## Tasks
 
 "#" | Status | Task
 --- | --- | ---
 0 | :heavy_check_mark: | Lexer (Lexical analysis)
-13 | :heavy_check_mark: | Ignore tap and space(Lexical)
-2 | :x: | Documents
+1 | :heavy_check_mark: | Ignore tap and space(Lexical)
+2 | :heavy_check_mark: | Documents
 3 | :heavy_check_mark: | Installing the required tools {'Flex', 'Bison', 'GCC'}
 4 | :heavy_check_mark: | Num Value(Grammars)
-5 | :satisfied: | Hex -> Dec Num Value
+5 | :heavy_check_mark: | Hex -> Dec Num Value
 6 | :heavy_check_mark: | Value Assignment
 7 | :heavy_check_mark: | String Value(Grammars)
 8 | :heavy_check_mark: | Print values (Grammars)
