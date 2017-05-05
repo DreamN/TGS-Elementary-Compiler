@@ -159,9 +159,11 @@ void initvariable(){
   fprintf(fp, "formatHex db  \"%%x\", 10, 0\n");
 }
 
-void jmpIf(int jmpId, int a, int b){
+void jmpIf(int jmpId, int a, int b, char* opt){
   incTab();fprintf(fp, "cmp %s, %s\n", regToString(a), regToString(b));
-  incTab();fprintf(fp, "jne s%d\n", jmpId);
+  if(strcmp(opt, "eq") == 0){
+    incTab();fprintf(fp, "jne s%d\n", jmpId);
+  }
   releaseRegister();
   releaseRegister();
   increment++;

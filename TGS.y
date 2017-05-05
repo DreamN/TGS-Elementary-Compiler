@@ -77,11 +77,12 @@
     char c;
     char* str;
 }
-%token <i> IF EQ LOOP TO END /* Condition Token */
+%token <i> IF LOOP TO END /* Condition Token */
 %token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
 %token <i> VAR
 %token <str> STRING
+%token <str> BOOL
 %type <i> E T F
 %type <str> STR
 
@@ -96,8 +97,8 @@ S : VAR '=' E '\n'                        {
                                             MemVar(STORE, $3, $1);
                                             releaseRegister();
                                           }
-  | IF ':' E EQ E '\n'                    {
-                                            jmpIf(push(st), $3, $5);
+  | IF ':' E BOOL E '\n'                    {
+                                            jmpIf(push(st), $3, $5, strtok($4," "));
                                           }           /* If */
   | LOOP ':' VAR ':' E TO E '\n'          {
                                             int conna = push(st);
