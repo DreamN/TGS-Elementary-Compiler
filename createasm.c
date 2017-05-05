@@ -164,6 +164,21 @@ void jmpIf(int jmpId, int a, int b, char* opt){
   if(strcmp(opt, "eq") == 0){
     incTab();fprintf(fp, "jne s%d\n", jmpId);
   }
+  else if(strcmp(opt, "neq") == 0){
+    incTab();fprintf(fp, "je s%d\n", jmpId);
+  }
+  else if(strcmp(opt, "lt") == 0){
+    incTab();fprintf(fp, "jge s%d\n", jmpId);
+  }
+  else if(strcmp(opt, "lte") == 0){
+    incTab();fprintf(fp, "jg s%d\n", jmpId);
+  }
+  else if(strcmp(opt, "gt") == 0){
+    incTab();fprintf(fp, "jle s%d\n", jmpId);
+  }
+  else if(strcmp(opt, "gte") == 0){
+    incTab();fprintf(fp, "jl s%d\n", jmpId);
+  }
   releaseRegister();
   releaseRegister();
   increment++;

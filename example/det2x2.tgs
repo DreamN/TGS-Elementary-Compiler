@@ -1,0 +1,7 @@
+present: "DET 2x2"
+$AA = 1
+$AB = 2
+$BA = 3
+$BB = 4
+$RS = ($AA * $BB) - ($AB * $BA)
+present: $RS
