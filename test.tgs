@@ -9,53 +9,65 @@ present: "A = B"
 if: 1 eq 1
   present: "Work"
 end
-if: 1 neq 1
+if: 1 eq 0
   present: "Not Work"
 end
 present: ""
 
 present: "A != B"
 if: 1 neq 1
-  present: "Work"
-end
-if: 1 eq 1
   present: "Not Work"
+end
+if: 1 neq 0
+  present: "Work"
 end
 present: ""
 
 present: "A < B"
-if: 1 lt 1
+if: 1 lt 2
   present: "Work"
 end
-if: 1 gte 1
+if: 1 lt 1
+  present: "Not Work"
+end
+if: 1 lt 0
   present: "Not Work"
 end
 present: ""
 
 present: "A <= B"
+if: 1 lte 2
+  present: "Work"
+end
 if: 1 lte 1
   present: "Work"
 end
-if: 1 gt 1
+if: 1 lte 0
   present: "Not Work"
 end
 present: ""
 
 present: "A > B"
-if: 1 gt 1
-  present: "Work"
-end
-if: 1 lte 1
+if: 1 gt 2
   present: "Not Work"
+end
+if: 1 gt 1
+  present: "Not Work"
+end
+if: 1 gt 0
+  present: "Work"
 end
 present: ""
 
 present: "A >= B"
+if: 1 gte 2
+  present: "Not Work"
+end
 if: 1 gte 1
   present: "Work"
 end
-if: 1 lt 1
-  present: "Not Work"
+if: 1 gte 0
+  present: "Work"
 end
 present: ""
 
