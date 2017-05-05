@@ -1,0 +1,12 @@
+present: "Factorial"
+$IP = 8
+
+$RS = 1
+loop: $AA: 2 to $IP
+  $RS = $RS * $AA
+  present_h: $rs
+end
+
+present: ""
+present: "Result"
+present: $RS

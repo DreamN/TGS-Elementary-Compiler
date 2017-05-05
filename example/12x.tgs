@@ -1,0 +1,4 @@
+present: "12x Multiplication table"
+loop: $LP: 1 to 20
+  present: 12 * $LP
+end
