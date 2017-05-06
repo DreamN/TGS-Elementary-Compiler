@@ -1,0 +1,24 @@
+??Swap a->b, b->a (a,b = b,a)
+$VA = 283
+$VB = 617
+
+??Before swap!
+present: "Before !!!"
+present: "A :"; present: $VA
+present: ""
+present: "B :"; present: $VB
+present: ""
+present: ""
+present: ""
+
+
+$VA = $VA+$VB
+$VB = $VA-$VB
+$VA = $VA-$VB
+
+$After swap!!
+present: "After !!!"
+present: "A :"; present: $VA
+present: ""
+present: "B :"; present: $VB
+present: ""
