@@ -1,6 +1,8 @@
 present: "Fibonacci"
 $AA = 0
 $AB = 1
+
+??present 20th first fibonacci number
 loop: $IT: 1 to 20
   present: $AB
   $TE = $AB

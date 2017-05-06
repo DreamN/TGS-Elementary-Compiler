@@ -1,5 +1,7 @@
+?? Declare variable
 $VA = -14; $VB = -1431; $VC = -162; $VD = 7162; $VE = 97
 
+?? Sorting Network (N=5) using Bose-Nelson Algorithm.
 if: $VA gt $VB
   $TP = $VA; $VA = $VB; $VB = $TP
 end
@@ -36,5 +38,6 @@ if: $VB gt $VC
   $TP = $VB;  $VB = $VC;  $VC = $TP
 end
 
+??Present the result
 present: "Result"
 present: $VA; present: $VB; present: $VC; present: $VD; present: $VE

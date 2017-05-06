@@ -1,12 +1,16 @@
 present: "Factorial"
+
+??This example will find the result of "8!"
 $IP = 8
 
+??Calculate factorial
 $RS = 1
 loop: $AA: 2 to $IP
   $RS = $RS * $AA
   present_h: $rs
 end
 
+??Present factorial result
 present: ""
 present: "Result"
 present: $RS

@@ -1,9 +1,5 @@
-present: "Loop 1-3"
-loop: $AS: 1 to 3
-  present: $AS
-end
-present: ""
-present: ""
+??This will test the boolean operation of the TGSlang
+??To proof that it's working correctly!
 
 present: "A = B"
 if: 1 eq 1

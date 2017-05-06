@@ -1,7 +1,16 @@
 present: "DET 2x2"
+
+?? Matrix
+?? | $AA $AB |
+?? | $BA $BB |
+
 $AA = 1
 $AB = 2
 $BA = 3
 $BB = 4
+
+??Calculate Determinant
 $RS = ($AA * $BB) - ($AB * $BA)
+
+??Present the result
 present: $RS
