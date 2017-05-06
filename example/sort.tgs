@@ -1,0 +1,40 @@
+$VA = -14; $VB = -1431; $VC = -162; $VD = 7162; $VE = 97
+
+if: $VA gt $VB
+  $TP = $VA; $VA = $VB; $VB = $TP
+end
+
+if: $VD gt $VE
+  $TP = $VD; $VD = $VE; $VE = $TP
+end
+
+if: $VC gt $VE
+  $TP = $VC; $VC = $VE; $VE = $TP
+end
+
+if: $VC gt $VD
+  $TP = $VC; $VC = $VD; $VD = $TP
+end
+
+if: $VB gt $VE
+  $TP = $VB; $VB = $VE; $VE = $TP
+end
+
+if: $VA gt $VD
+  $TP = $VA; $VA = $VD; $VD = $TP
+end
+
+if: $VA gt $VC
+  $TP = $VA; $VA = $VC; $VC = $TP
+end
+
+if: $VB gt $VD
+  $TP = $VB;  $VB = $VD;  $VD = $TP
+end
+
+if: $VB gt $VC
+  $TP = $VB;  $VB = $VC;  $VC = $TP
+end
+
+present: "Result"
+present: $VA; present: $VB; present: $VC; present: $VD; present: $VE
