@@ -80,7 +80,7 @@
 %token <i> IF LOOP TO END /* Condition Token */
 %token <i> NUM PRESENT PRESENTHEX    /* Options Token */
 %token <i> UNKNOWN /* Error Token */
-%token <i> VAR
+%token <i> VAR ENDLINE
 %token <str> STRING
 %token <str> BOOL
 %type <i> E T F
@@ -92,32 +92,32 @@ program:
   | /* NULL */
   ;
 
-S : VAR '=' E '\n'                        {
+S : VAR '=' E ENDLINE                     {
                                             var[$1] = $3;
                                             MemVar(STORE, $3, $1);
                                             releaseRegister();
                                           }
-  | IF ':' E BOOL E '\n'                    {
+  | IF ':' E BOOL E ENDLINE               {
                                             jmpIf(push(st), $3, $5, strtok($4," "));
                                           }           /* If */
-  | LOOP ':' VAR ':' E TO E '\n'          {
+  | LOOP ':' VAR ':' E TO E ENDLINE       {
                                             int conna = push(st);
                                             int connb = push(st);
                                             jmpLoop($3, conna, connb, $5, $7);
                                             pushLoopSig(st);
                                           }                              /* For Loop */
-  | PRESENT ':' STR '\n'                  {}                              /* Print number in decimal */
-  | PRESENT ':' E '\n'                    {
+  | PRESENT ':' STR ENDLINE               {}                              /* Print number in decimal */
+  | PRESENT ':' E ENDLINE                 {
                                             asmprintfInt($3);
                                             releaseRegister();
                                           }
-  | PRESENTHEX ':' E '\n'                 {
+  | PRESENTHEX ':' E ENDLINE              {
                                             asmprintfHex($3);
                                             releaseRegister();
                                           }
   | UNKNOWN                               {printf("!ERROR : Unknown operation\n");}   /* "!ERROR" when out of gramma character */
-  | E '\n'                                {releaseRegister();}
-  | END '\n'                              {
+  | E ENDLINE                             {releaseRegister();}
+  | END ENDLINE                           {
                                             if(st->data == -1){
                                               pop(st);
                                               int connb = pop(st);
@@ -128,7 +128,7 @@ S : VAR '=' E '\n'                        {
                                               jmpEndIf(pop(st));
                                             }
                                           }
-  | '\n'                                  {}
+  | ENDLINE                               {}
   ;
 
 E : E '+' T          {$$ = $1;
